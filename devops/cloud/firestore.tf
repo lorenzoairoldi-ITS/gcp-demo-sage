@@ -35,4 +35,8 @@ resource "google_firestore_index" "chunks_embedding" {
   lifecycle {
     ignore_changes = [fields]
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9479a9d81bf9350630dfc58940495b3e5b679364

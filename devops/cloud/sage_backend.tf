@@ -86,6 +86,15 @@ resource "google_cloud_run_v2_service" "sage_backend" {
   ]
 }
 
+# Accesso pubblico (non autenticato): chiunque può invocare il servizio.
+resource "google_cloud_run_v2_service_iam_member" "sage_public" {
+  project  = var.project_id
+  location = var.region
+  name     = google_cloud_run_v2_service.sage_backend.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
 # Service account con cui gira il backend su Cloud Run (privilegio minimo).
 resource "google_service_account" "sage_run" {
   project      = var.project_id
@@ -102,6 +111,7 @@ resource "google_project_iam_member" "sage_run_vertex" {
   member  = "serviceAccount:${google_service_account.sage_run.email}"
 }
 
+<<<<<<< HEAD
 
 # Accesso pubblico (non autenticato): chiunque può invocare il servizio.
 resource "google_cloud_run_v2_service_iam_member" "sage_public" {  
@@ -114,8 +124,15 @@ resource "google_cloud_run_v2_service_iam_member" "sage_public" {
 
 
 # Permesso di chiamare Firestore.
+=======
+# Permesso di chiamare Firestore
+>>>>>>> 9479a9d81bf9350630dfc58940495b3e5b679364
 resource "google_project_iam_member" "sage_run_firestore" {
   project = var.project_id
   role    = "roles/datastore.user"
   member  = "serviceAccount:${google_service_account.sage_run.email}"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9479a9d81bf9350630dfc58940495b3e5b679364
