@@ -8,5 +8,5 @@ def read_instructions() -> str:
     bucket_name = f"{config.resource_prefix}-instructions"
 
     client = storage.Client(project=config.project_id)
-    blob = client.bucket(bucket_name).blob("instruction.md")
+    blob = client.bucket(bucket_name).blob("istruzioni.md")
     return blob.download_as_text(encoding="utf-8", timeout=10)
