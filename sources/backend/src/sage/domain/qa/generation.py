@@ -1,9 +1,11 @@
 """Generation step of the RAG pipeline: build the grounded prompt, call the LLM."""
 
+import asyncio
 from pathlib import Path
 
 from sage.domain.qa.models import Chunk
 from sage.integrations.llm.generate import generate_text
+from sage.integrations.storage.instruction import read_instructions
 
 _PROMPT_TEMPLATE = (Path(__file__).parent / "prompts" / "answer_prompt.txt").read_text(
     encoding="utf-8"
