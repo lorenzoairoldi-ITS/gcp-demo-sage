@@ -8,9 +8,7 @@ from sage.integrations.llm.generate import generate_text
 _PROMPT_TEMPLATE = (Path(__file__).parent / "prompts" / "answer_prompt.txt").read_text(
     encoding="utf-8"
 )
-_NO_DOCUMENTS_CONTEXT = (
-    "Nessun documento disponibile (base di conoscenza non ancora popolata o non configurata)."
-)
+_NO_DOCUMENTS_CONTEXT = "Nessun documento disponibile (base di conoscenza non ancora popolata o non configurata)."
 
 
 def build_prompt(question: str, chunks: list[Chunk]) -> str:
@@ -23,5 +21,7 @@ def build_prompt(question: str, chunks: list[Chunk]) -> str:
 
 
 async def generate_answer(question: str, chunks: list[Chunk]) -> str:
+    instructions = await asyncio.to_thread(read_instructions)
     prompt = build_prompt(question, chunks)
+    prompt = f"{instructions}\n\n{prompt}"
     return await generate_text(prompt)
