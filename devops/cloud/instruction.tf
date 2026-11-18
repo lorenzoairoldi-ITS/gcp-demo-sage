@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "instructions" {
-  name                        = "${var.prefix}-instructions" 
+  name                        = "${var.resource_prefix}-instructions" 
   location                    = var.region
   uniform_bucket_level_access = true
   force_destroy               = true
