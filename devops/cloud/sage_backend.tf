@@ -1,3 +1,4 @@
+
 variable "container_image" {
   description = "Immagine iniziale del servizio. Le release successive le pubblica la pipeline deploy.yml."
   type        = string
@@ -9,8 +10,6 @@ variable "app_name" {
   type        = string
   default     = "sage-backend"
 }
-
-
 
 # Repository Docker per le immagini del backend di Sage, popolato dalla pipeline di deploy
 # (.github/workflows/deploy.yml), separata dalla pipeline Terraform.
@@ -60,10 +59,12 @@ resource "google_cloud_run_v2_service" "sage_backend" {
         name  = "SAGE_PROJECT_ID"
         value = var.project_id
       }
+
       env {
         name  = "SAGE_REGION"
         value = var.region
       }
+
       env {
         name  = "SAGE_RESOURCE_PREFIX"
         value = var.resource_prefix
@@ -111,28 +112,9 @@ resource "google_project_iam_member" "sage_run_vertex" {
   member  = "serviceAccount:${google_service_account.sage_run.email}"
 }
 
-<<<<<<< HEAD
-
-# Accesso pubblico (non autenticato): chiunque può invocare il servizio.
-resource "google_cloud_run_v2_service_iam_member" "sage_public" {  
-  project  = var.project_id  
-  location = var.region  
-  name     = google_cloud_run_v2_service.sage_backend.name  
-  role     = "roles/run.invoker"  
-  member   = "allUsers"
-}
-
-
 # Permesso di chiamare Firestore.
-=======
-# Permesso di chiamare Firestore
->>>>>>> 9479a9d81bf9350630dfc58940495b3e5b679364
 resource "google_project_iam_member" "sage_run_firestore" {
   project = var.project_id
   role    = "roles/datastore.user"
   member  = "serviceAccount:${google_service_account.sage_run.email}"
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9479a9d81bf9350630dfc58940495b3e5b679364
